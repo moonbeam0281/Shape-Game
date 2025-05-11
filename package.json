@@ -1,0 +1,25 @@
+{
+  "name": "shape-game",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "moonbeam",
+  "license": "ISC",
+  "description": "Shape game",
+  "dependencies": {
+    "three": "^0.176.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.176.0",
+    "css-loader": "^7.1.2",
+    "html-webpack-plugin": "^5.6.3",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.99.7",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.1"
+  }
+}
