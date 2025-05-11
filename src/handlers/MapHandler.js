@@ -6,6 +6,7 @@ export class MapHandler {
     this.activeMap = null;
     this.selector = selector;
     this.maps = [];
+    this.loadMaps();
   }
 
   loadMaps() {

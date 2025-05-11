@@ -55,8 +55,9 @@ export class RTSCameraController {
         });
 
         this.domElement.addEventListener('mousemove', (e) => {
-            this.mouse.x = e.clientX;
-            this.mouse.y = e.clientY;
+            const rect = this.domElement.getBoundingClientRect();
+            this.mouse.x = e.clientX - rect.left;
+            this.mouse.y = e.clientY - rect.top;
             if (!this.isDragging) return;
 
             const dx = e.clientX - this.lastMouse.x;
@@ -85,8 +86,9 @@ export class RTSCameraController {
 
     updateCursor() {
         const { x, y } = this.mouse;
-        const width = window.innerWidth;
-        const height = window.innerHeight;
+        const rect = this.domElement.getBoundingClientRect();
+        const width = rect.width;
+        const height = rect.height;
         const b = this.edgeBuffer;
 
         let cursor = 'default';
@@ -128,8 +130,9 @@ export class RTSCameraController {
 
         // Edge scrolling
         const { x, y } = this.mouse;
-        const width = window.innerWidth;
-        const height = window.innerHeight;
+        const rect = this.domElement.getBoundingClientRect();
+        const width = rect.width;
+        const height = rect.height;
 
         if(!this.isDragging)
         {

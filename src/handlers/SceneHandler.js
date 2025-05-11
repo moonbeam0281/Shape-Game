@@ -1,5 +1,5 @@
 import { setupLighting } from '../environment/Lighting.js';
-import { MainCamera } from '../environment/Camera.js';
+import { Camera } from '../environment/Camera.js';
 import { MapHandler } from './MapHandler.js';
 
 export class SceneHandler {
@@ -7,9 +7,10 @@ export class SceneHandler {
     this.player = player;
     this.renderer = renderer;
     this.activeMap = activeMap;
-    this.mainCamera = new MainCamera(player, this.renderer, activeMap);
+    this.mainCamera = new Camera(player, this.renderer, activeMap);
     this.scene = scene;
     setupLighting(this.scene);
+    this.loadScene();
   }
 
 
@@ -25,8 +26,11 @@ export class SceneHandler {
     //console.log('Added lighting to scene');
   }*/
 
-  loadScene(scene, map)
+  loadScene()
   {
-    
+    this.activeMap.objects.forEach(o =>{
+      this.scene.add(o);
+    });
+
   }
 }

@@ -11,32 +11,9 @@ const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 const mapSelect = document.getElementById('mapSelect');
 const mainScene = new THREE.Scene();
 const maphandler = new MapHandler(mainScene, mapSelect);
-maphandler.loadMaps();
+console.log(maphandler.activeMap);
 const sceneHandler = new SceneHandler(playerName.innerHTML, mainScene, renderer, maphandler.activeMap);
-//Map Handler and selector
-
-
-
-//Renderer
-
-
-
-//Camera and handeler
-//const { camera, controls } = setupCamera(renderer, maphandler.activeMap);
-/*
-console.log("Logging every object...");
-console.log("mainScene: ");
-console.log(mainscene);
-console.log("Canvas: ")
-console.log(canvas)
-console.log("Renderer: ")
-console.log(renderer);
-console.log(mainscene);
-console.log("mapHadpler: ");
-console.log(maphandler);
-console.log("Camera and controls");
-console.log(camera);
-console.log(controls);*/
+console.log(mainScene);
 
 
 //console.log('Generating scene handler');
@@ -55,9 +32,8 @@ mapSelect.addEventListener('change', (event) => {
     console.log("Setting up to new selected map...");
     maphandler.generateMap();
     console.log("Generating map...");
-    console.log(maphandler.activeMap);
-    console.log(mainscene);
-    sceneHandler.updateMap();
+    sceneHandler.loadScene();
+    sceneHandler.mainCamera.updateCameraBonds(maphandler.activeMap);
   };
 });
 
@@ -67,21 +43,42 @@ function animate() {
   requestAnimationFrame(animate);
   //const elapsed = (performance.now() - startTime) / 1000;
 
-  renderer.render(sceneHandler.scene, sceneHandler.mainCamera);
-  sceneHandler.camera.controls.update();
+  renderer.render(mainScene, sceneHandler.mainCamera.camera);
+  sceneHandler.mainCamera.controls.update();
   //console.log(`Scene running for: ${elapsed.toFixed(2)}s`);
 }
 animate();
 
 // Resize
 window.addEventListener('resize', () => {
-  const width = canvas.clientWidth;
-  const height = canvas.clientHeight;
-  renderer.setSize(width, height, false);
-  mainCamera.camera.aspect = width / height;
-  mainCamera.camera.updateProjectionMatrix();
+  const isFullscreen = document.fullscreenElement === canvas;
+
+  const parent = canvas.parentElement;
+
+  const width = isFullscreen ? window.innerWidth : parent.clientWidth;
+  const height = isFullscreen ? window.innerHeight : parent.clientHeight;
+
+  renderer.setSize(width, height);
+  sceneHandler.mainCamera.camera.aspect = width / height;
+  sceneHandler.mainCamera.camera.updateProjectionMatrix();
 });
 
+document.addEventListener('fullscreenchange', () => {
+  window.dispatchEvent(new Event('resize'));
+});
+
+function enterFullscreen() {
+  if (canvas.requestFullscreen) {
+    canvas.requestFullscreen();
+  } else if (canvas.webkitRequestFullscreen) { // Safari
+    canvas.webkitRequestFullscreen();
+  } else if (canvas.msRequestFullscreen) { // IE11
+    canvas.msRequestFullscreen();
+  }
+}
+
+canvas.addEventListener('dblclick', enterFullscreen);
+
 window.addEventListener('load', () => {
-  renderer.setSize(canvas.innerWidth, canvas.innerHeight);
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 });

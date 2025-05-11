@@ -32,8 +32,6 @@ export class GrassFields extends iMap {
         floor.receiveShadow = true;
 
         this.objects.push(floor);
-        console.log("Generated Grass fields: displaying objects");
-        console.log(this.objects);
     }
 
     destroy(scene) {
