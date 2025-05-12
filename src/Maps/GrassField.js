@@ -1,48 +1,41 @@
 import * as THREE from 'three';
 import { iMap } from '../../interface/iMap.js';
 import grassImage from '../assets/grass.jpg';
-import { setupLighting } from '../environment/Lighting.js';
 
 export class GrassFields extends iMap {
-    constructor() {
-        super();
-        this.mapName = "Grass Fields";
-        this.width = 120;
-        this.lenght = 240;
-        this.objects = [];
-    }
+  constructor() {
+    super();
+    this.mapName = "Grass Fields";
+    this.width = 120;
+    this.length = 240; // ✅ fixed typo
+    this.objects = [];
+  }
 
-    generate() {
-        const geometry = new THREE.PlaneGeometry(this.width, this.lenght);
-        const textureLoader = new THREE.TextureLoader();
-        const grassTexture = textureLoader.load(grassImage);
-        grassTexture.wrapS = THREE.RepeatWrapping;
-        grassTexture.wrapT = THREE.RepeatWrapping;
-        grassTexture.repeat.set(15, 15);
+  generate() {
+    const geometry = new THREE.PlaneGeometry(this.width, this.length);
+    const textureLoader = new THREE.TextureLoader();
+    const grassTexture = textureLoader.load(grassImage);
 
-        const material = new THREE.MeshStandardMaterial({
-            map: grassTexture
-        });
+    grassTexture.wrapS = THREE.RepeatWrapping;
+    grassTexture.wrapT = THREE.RepeatWrapping;
+    grassTexture.repeat.set(15, 15);
 
-        const floor = new THREE.Mesh(geometry, material);
+    const material = new THREE.MeshStandardMaterial({ map: grassTexture });
 
-        floor.rotation.x = -Math.PI / 2;
-        floor.position.x = 0;
-        floor.position.z = 0;
-        floor.receiveShadow = true;
+    const floor = new THREE.Mesh(geometry, material);
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.set(0, 0, 0);
+    floor.receiveShadow = true;
 
-        this.objects.push(floor);
-    }
+    this.objects.push(floor);
+  }
 
-    destroy(scene) {
-        console.log("called destroy from grassfield");
-        this.objects.forEach(obj => {
-            if (obj.isMesh) {
-                obj.geometry?.dispose();
-                obj.material?.dispose();
-            }
-            scene.remove(obj);
-        });
-        this.objects = [];
-    }
+  destroy() {
+    console.log("Destroying GrassFields...");
+    this.objects.forEach(obj => {
+      obj.geometry?.dispose();
+      obj.material?.dispose();
+    });
+    this.objects = [];
+  }
 }

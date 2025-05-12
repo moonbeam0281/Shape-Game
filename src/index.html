@@ -8,16 +8,38 @@
 
 <body>
   <div id="layout">
-    <header>Header</header>
+    <header>Text</header>
 
     <div class="main">
       <aside class="sidebar">
         <h3>Options:</h3>
         <p>Map change</p>
-        <select id="mapSelect" class = "select-menu"></select>
+        <select id="mapSelect" class="select-menu"></select>
         <p>Player name:</p>
         <p id="playerNameInput">moonbeam</p>
       </aside>
+
+      <div id="start-menu">
+        <div class="start-box">
+          <h2>Start Game</h2>
+          <label for="player-name-input">Name:</label>
+          <input type="text" id="player-name-input" placeholder="Enter your name" />
+
+          <label for="shape-select">Choose your shape:</label>
+          <select id="shape-select">
+            <option value="Cube">Cube</option>
+            <option value="Sphere">Sphere</option>
+            <option value="Pyramid">Pyramid</option>
+            <option value="Octahedron">Octahedron</option>
+          </select>
+
+          <label for="color-picker">Choose your color:</label>
+          <input type="color" id="color-picker" value="#00ff00" />
+
+
+          <button id="start-button">Start</button>
+        </div>
+      </div>
 
       <section class="scene-area">
         <canvas id="canvas"></canvas>
